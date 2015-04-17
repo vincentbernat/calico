@@ -91,8 +91,10 @@ class Config(object):
                                            socket.gethostname())
 
         self.STARTUP_CLEANUP_DELAY = 30
-        self.METADATA_IP = "127.0.0.1"
-        self.METADATA_PORT = "8775"
+        self.METADATA_IP = self.get_cfg_entry("global", "MetadataAddr",
+                                              "127.0.0.1")
+        self.METADATA_PORT = self.get_cfg_entry("global", "MetadataPort",
+                                                "8775")
         self.RESYNC_INT_SEC = 1800
         self.IFACE_PREFIX = None
         self.LOGFILE = "/var/log/calico/felix.log"
@@ -107,8 +109,8 @@ class Config(object):
     def update_config(self, cfg_dict):
         self.STARTUP_CLEANUP_DELAY = int(cfg_dict.pop("StartupCleanupDelay",
                                                       "30"))
-        self.METADATA_IP = cfg_dict.pop("MetadataAddr", "127.0.0.1")
-        self.METADATA_PORT = cfg_dict.pop("MetadataPort", "8775")
+        self.METADATA_IP = cfg_dict.pop("MetadataAddr", self.METADATA_IP)
+        self.METADATA_PORT = cfg_dict.pop("MetadataPort", self.METADATA_PORT)
         self.RESYNC_INT_SEC = int(cfg_dict.pop("ResyncIntervalSecs", "1800"))
         self.IFACE_PREFIX = cfg_dict.pop("InterfacePrefix", None)
         self.LOGFILE = cfg_dict.pop("LogFilePath", "/var/log/calico/felix.log")
