@@ -257,7 +257,7 @@ def main():
         if not control_node:
             run(["yum", "update", "-y"])
 
-        run(["yum", "install", "openstack-neutron"])
+        run(["yum", "install", "-y", "openstack-neutron"])
 
         run(["service", "neutron-openvswitch-agent", "stop"], fail_on_error=False)
         run(["service", "openvswitch", "stop"], fail_on_error=False)
@@ -292,7 +292,7 @@ def main():
             run(["service", "openstack-nova-metadata-api", "restart"])
             run(["chkconfig", "openstack-nova-metadata-api", "on"])
 
-        run(["yum", "install", "bird", "bird6"])
+        run(["yum", "install", "-y", "bird", "bird6"])
 
         if not control_node:
             # Install etcd.
