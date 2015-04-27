@@ -170,7 +170,7 @@ def main():
 
         create_ram_disk = False
         with open("/etc/fstab", "r") as fstab:
-            if "/var/lib/etcd-rd" not in fstab.read():
+            if "/var/lib/etcd" not in fstab.read():
                 _log.info("Creating RAM disk for etcd")
                 create_ram_disk = True
         if create_ram_disk:
