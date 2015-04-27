@@ -85,15 +85,20 @@ def backup_file(filename, now):
 
 
 def replace_config(lines, config_item, new_value):
+    """
+    Replace config_item with new_value, or remove it if new_value == None
+    """
     new_lines = []
     replacement_line = "%s = %s\n" % (config_item, new_value)
     found = False
     for line in lines:
         if re.match(r"\b%s\b.*=" % re.escape(config_item), line):
-            line = replacement_line
             found = True
-        new_lines.append(line)
-    if not found:
+            if new_value is not None:
+                new_lines.append(replacement_line)
+        else:
+            new_lines.append(line)
+    if not found and new_value is not None:
         new_lines.append(replacement_line)
     return new_lines
 
