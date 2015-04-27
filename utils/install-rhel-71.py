@@ -334,7 +334,7 @@ def main():
 
         _log.info("Installing calico-compute")
         run(["yum", "install", "-y", "calico-compute"])
-        run(["\\cp", "-r", "/etc/calico/felix.cfg.example", "/etc/calico/felix.cfg"])
+        run(["cp", "-r", "/etc/calico/felix.cfg.example", "/etc/calico/felix.cfg"])
         run(["systemctl", "restart", "calico-felix"])
 
         run(["/usr/bin/calico-gen-bird-conf.sh", PUBLIC_IP, BGP_PEER_IP, BGP_AS])
