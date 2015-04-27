@@ -332,6 +332,9 @@ def main():
 
             install_python_etcd()
 
+        _log.info("Installing calico-compute")
+        run(["yum", "install", "-y", "calico-compute"])
+
         run(["/usr/bin/calico-gen-bird-conf.sh", PUBLIC_IP, BGP_PEER_IP, BGP_AS])
         run(["/usr/bin/calico-gen-bird6-conf.sh", PUBLIC_IP, PUBLIC_IPV6, BGP_PEER_IPV6, BGP_AS])
         run(["service", "bird", "restart"])
