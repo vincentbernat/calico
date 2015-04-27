@@ -218,8 +218,8 @@ def main():
         with open(filename, "r") as f:
             lines = f.readlines()
         lines = replace_config(lines, "clear_emulator_capabilities", "0")
-        lines = replace_config(lines, "user", "root")
-        lines = replace_config(lines, "group", "root")
+        lines = replace_config(lines, "user", '"root"')
+        lines = replace_config(lines, "group", '"root"')
         lines = replace_config(
             lines,
             "cgroup_device_acl",
@@ -238,7 +238,7 @@ def main():
 
 
         _log.info("Updating nova config.")
-        filename = "/etc/libvirt/qemu.conf"
+        filename = "/etc/nova/nova.conf"
         bak_file = backup_file(filename, now)
         with open(filename, "r") as f:
             lines = f.readlines()
