@@ -11,7 +11,7 @@ import uuid
 _log = logging.getLogger(__name__)
 
 # CONFIG PARAMS.
-EGG_PATH = "~/eggs/"
+EGG_PATH = "eggs/"
 BGP_PEER_IP = "172.18.203.239"
 BGP_AS = 65530
 PUBLIC_IP = "172.18.203.240"
