@@ -11,6 +11,7 @@ import uuid
 _log = logging.getLogger(__name__)
 
 # CONFIG PARAMS.
+EGG_PATH = "~/eggs/"
 BGP_PEER_IP = "172.18.203.239"
 BGP_AS = 65530
 PUBLIC_IP = "172.18.203.240"
@@ -98,18 +99,20 @@ def replace_config(lines, config_item, new_value):
 
 
 def install_python_etcd():
-    rpms = [
-        "cffi-0.9.2-1.x86_64.rpm",
-        "cryptography-0.8.2-1.x86_64.rpm",
-        "enum34-1.0.4-1.noarch.rpm",
-        "pyasn1-0.1.7-1.noarch.rpm",
-        "pycparser-2.12-1.noarch.rpm",
-        "pyOpenSSL-0.15.1-1.noarch.rpm",
-        "python-etcd-0.3.3_calico_2-1.noarch.rpm",
-        "six-1.9.0-1.noarch.rpm",
-        "urllib3-1.7.1-1.noarch.rpm",
+    eggs = [
+        "pycparser-2.12-py2.7.egg",
+        "cffi-0.9.2-py2.7-linux-x86_64.egg",
+        "enum34-1.0.4-py2.7.egg",
+        "pyasn1-0.1.7-py2.7.egg",
+        "six-1.9.0-py2.7.egg",
+        "cryptography-0.8.2-py2.7-linux-x86_64.egg",
+        "pyOpenSSL-0.15.1-py2.7.egg",
+        "urllib3-1.7.1-py2.7.egg",
+        "python_etcd-0.3.3_calico_2-py2.7.egg"
     ]
-    run(["rpm", "--install", "--force"] + rpms)
+    # Make sure to install the eggs in the correct order
+    for egg in eggs:
+        run(["easy_install", EGG_PATH + egg])
 
 
 def main():
@@ -187,7 +190,7 @@ def main():
         run(["systemctl", "start", "etcd"])
         run(["systemctl", "enable", "etcd"])
 
-        #install_python_etcd()
+        install_python_etcd()
 
         run(["yum", "install", "-y", "calico-control"])
         run(["service", "neutron-server", "restart"])
@@ -325,7 +328,7 @@ def main():
             run(["systemctl", "start", "etcd"])
             run(["systemctl", "enable", "etcd"])
 
-            #install_python_etcd()
+            install_python_etcd()
 
         run(["/usr/bin/calico-gen-bird-conf.sh", PUBLIC_IP, BGP_PEER_IP, BGP_AS])
         run(["/usr/bin/calico-gen-bird6-conf.sh", PUBLIC_IP, PUBLIC_IPV6, BGP_PEER_IPV6, BGP_AS])
